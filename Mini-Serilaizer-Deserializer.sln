@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ABC30747-2987-47BB-891E-1305E650FAA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mini-Serializer-Deserializer", "src\Mini-Serializer-Deserializer\Mini-Serializer-Deserializer.csproj", "{7BC43822-5279-4038-B019-BFD9C1577FDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializerDeserializerTestApp", "src\SerializerDeserializerTestApp\SerializerDeserializerTestApp.csproj", "{D9E50052-CCA4-4514-B72B-42D9294220BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BC43822-5279-4038-B019-BFD9C1577FDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC43822-5279-4038-B019-BFD9C1577FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC43822-5279-4038-B019-BFD9C1577FDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC43822-5279-4038-B019-BFD9C1577FDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E50052-CCA4-4514-B72B-42D9294220BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E50052-CCA4-4514-B72B-42D9294220BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E50052-CCA4-4514-B72B-42D9294220BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E50052-CCA4-4514-B72B-42D9294220BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7BC43822-5279-4038-B019-BFD9C1577FDD} = {ABC30747-2987-47BB-891E-1305E650FAA5}
+		{D9E50052-CCA4-4514-B72B-42D9294220BF} = {ABC30747-2987-47BB-891E-1305E650FAA5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C36B318-9DAF-4875-958D-4EB2C2560A0E}
+	EndGlobalSection
+EndGlobal
