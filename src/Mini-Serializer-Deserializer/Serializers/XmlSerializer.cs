@@ -17,49 +17,52 @@ namespace Mini_Serializer_Deserializer.Serializers
 
             // build the result
             var resultBuilder = new StringBuilder();
-            resultBuilder.AppendLine("<" + myType.Name + ">");
+            resultBuilder.AppendLine($"<{myType.Name}>");
 
 
             // if the object is null return wil null value
             if(obj is null)
             {
-                return resultBuilder.AppendLine("null</" + myType.Name + ">").ToString();
+                return resultBuilder.AppendLine($"null</{myType.Name}>").ToString();
             }
 
             // iterate through all the type's properties and add them to a list.
             IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
 
-
             foreach (var prop in props)
             {
-                // Get the propertu value
-                var propValue = prop.GetValue(obj, null);
-
-                resultBuilder.Append("    <" + prop.Name + ">");
-
-                if (propValue == null)
-                {
-                    // Skip this property or write a special value
-                    resultBuilder.AppendLine("null</" + prop.Name + ">");
-                    continue;
-                }
-
-                // Check if the property is a complex type
-                if (prop.PropertyType.Assembly == myType.Assembly)
-                {
-                    // If the property is a complex type, serialize it using a recursive call
-                    resultBuilder.Append(SerializeImp(propValue, serialized));
-                }
-                else
-                {
-                    resultBuilder.Append(propValue);
-                }
-                resultBuilder.AppendLine("</" + prop.Name + ">");
+                SerializeProperty(obj, serialized, resultBuilder, prop);
             }
 
-            resultBuilder.AppendLine("</" + myType.Name + ">");
+            resultBuilder.AppendLine($"</{myType.Name}>");
             return resultBuilder.ToString();
         }
+        private static void SerializeProperty<T>(T obj, HashSet<object> serialized, StringBuilder resultBuilder, PropertyInfo prop)
+        {
+            // Get the property value
+            var propValue = prop.GetValue(obj, null);
+            resultBuilder.Append($"    <{prop.Name}>");
+
+            if (propValue == null)
+            {
+                // write a special value
+                resultBuilder.AppendLine($"null</{prop.Name}>");
+                return;
+            }
+
+            // Check if the property is a complex type
+            if (!prop.PropertyType.IsValueType && prop.PropertyType != typeof(string))
+            {
+                // If the property is a complex type, serialize it using a recursive call
+                resultBuilder.Append(SerializeImp(propValue, serialized));
+            }
+            else
+            {
+                resultBuilder.Append(propValue);
+            }
+            resultBuilder.AppendLine($"</{prop.Name}>");
+        }
+
         // obj must always be of type T at runtime
         public static string Serialize<T>(T obj)
         {
