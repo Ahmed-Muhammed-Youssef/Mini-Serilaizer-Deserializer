@@ -8,21 +8,18 @@ namespace Mini_Serializer_Deserializer.Serializers
     {
         public static int indentationStep = 3;
         private static int CurrentIdentation = 0;
-        private static string GetCurrentIdentation()
+        // obj must always be of type T at runtime
+        public static string Serialize<T>(T obj)
         {
-            return new string(' ', CurrentIdentation);
-        }
-        private static void Indent()
-        {
-            CurrentIdentation += indentationStep;
-        }
-        private static void Unindent()
-        {
-            CurrentIdentation -= indentationStep;
+            // to sotre alreday serialized objects, To pervent circular referncing
+            HashSet<object> serialized = [];
+            StringBuilder result = new("<?xml version=\"1.0\" encoding=\"utf-16\"?>\n");
+            SerializeImp(obj, result, serialized);
+            return result.ToString();
         }
         private static void SerializeImp(object? obj, StringBuilder resultBuilder, HashSet<object> serialized, string? name = null)
         {
-            // if the object is null return wil null value
+            // ignore objects with null values
             if (obj is null)
             {
                 return;
@@ -32,15 +29,16 @@ namespace Mini_Serializer_Deserializer.Serializers
 
             string tagName = name ?? objectType.Name;
             // open the tag
-            resultBuilder.Append($"{GetCurrentIdentation()}<{tagName}>");
+            string openingTag = $"<{tagName}>";
+            resultBuilder.Append($"{IndentLine(openingTag)}");
             
             // Circular reference detected
             if (serialized.Contains(obj))
             {
-                Indent();
-                resultBuilder.AppendLine($"{GetCurrentIdentation()}<CircularReference />");
-                Unindent();
-                resultBuilder.AppendLine($"{GetCurrentIdentation()}</{tagName}>");
+                HandleCircularReference(resultBuilder);
+
+                var closingTag = $"</{tagName}>";
+                resultBuilder.AppendLine($"{IndentLine(closingTag)}");
                 return;
             }
             // for primitive types
@@ -67,19 +65,25 @@ namespace Mini_Serializer_Deserializer.Serializers
             serialized.Remove(obj);
 
             // close the tag
-            resultBuilder.AppendLine($"{GetCurrentIdentation()}</{tagName}>");
+            var closeTage = $"</{tagName}>";
+            resultBuilder.AppendLine($"{IndentLine(closeTage)}");
         }
 
-        // obj must always be of type T at runtime
-        public static string Serialize<T>(T obj)
+        private static void HandleCircularReference(StringBuilder resultBuilder)
         {
-            // to sotre alreday serialized objects, To pervent circular referncing
-            HashSet<object> serialized = [];
+            Indent();
+            resultBuilder.AppendLine($"{IndentLine("<CircularReference />")}");
+            Unindent();
+        }
 
-            var objectType = typeof(T);
-            StringBuilder result = new("<?xml version=\"1.0\" encoding=\"utf-16\"?>\n");
-            SerializeImp(obj, result, serialized);
-            return result.ToString();
+        private static string IndentLine(string line) => $"{new string(' ', CurrentIdentation)}{line}";
+        private static void Indent()
+        {
+            CurrentIdentation += indentationStep;
+        }
+        private static void Unindent()
+        {
+            CurrentIdentation -= indentationStep;
         }
     }
 }
