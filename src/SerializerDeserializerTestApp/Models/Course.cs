@@ -10,7 +10,7 @@ namespace SerializerDeserializerTestApp.Models
     {
         public string? Id { get; set; }
         public string? Name { get; set; }
-        public List<Assignment>? Assignments { get; set; }
+        public Assignment? Assignments { get; set; }
     }
 
 }
