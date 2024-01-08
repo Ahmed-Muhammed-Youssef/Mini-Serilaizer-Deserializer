@@ -1,6 +1,8 @@
 ﻿using Mini_Serializer_Deserializer.Serializers;
+using Mini_Serializer_Deserializer.Serializers.Configurations;
 using SerializerDeserializerTestApp.Models;
 using System.Xml.Serialization;
+using static SerializerDeserializerTestApp.Models.Student;
 
 namespace SerializerDeserializerTestApp
 {
@@ -16,8 +18,8 @@ namespace SerializerDeserializerTestApp
         private static void TestPrimtive()
         {
             int x = 1;
-
-            var res1 = MiniXmlSerializer.Serialize(x);
+            var miniXmlSerializer = new MiniXmlSerializer();
+            var res1 = miniXmlSerializer.Serialize(x);
             // another way
             var xmlStandrardSerializer = new XmlSerializer(typeof(int));
             var res2Stream = new StringWriter();
@@ -35,8 +37,8 @@ namespace SerializerDeserializerTestApp
                 Name = null,
                 DueDate = DateTime.Now
             };
-
-            var res1 = MiniXmlSerializer.Serialize(assignment);
+            var miniXmlSerializer = new MiniXmlSerializer();
+            var res1 = miniXmlSerializer.Serialize(assignment);
             // another way
             var xmlStandrardSerializer = new XmlSerializer(typeof(Assignment));
             var res2Stream = new StringWriter();
@@ -60,7 +62,8 @@ namespace SerializerDeserializerTestApp
                 Name = null,
                 Assignments = assignment
             };
-            var res1 = MiniXmlSerializer.Serialize(course);
+            var miniXmlSerializer = new MiniXmlSerializer();
+            var res1 = miniXmlSerializer.Serialize(course);
             // another way
             var xmlStandrardSerializer = new XmlSerializer(typeof(Course));
             var res2Stream = new StringWriter();
@@ -89,9 +92,13 @@ namespace SerializerDeserializerTestApp
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Ahmed",
+                StudentLevel = StudentLevel.Intermediate,
                 Courses = new List<Course> { course }
             };
-            var res1 = MiniXmlSerializer.Serialize(student);
+
+            var miniConfig = new MiniXmlSerializerConfigurations() { MapEnumsNumericValues = true };
+            var miniXmlSerializer = new MiniXmlSerializer(miniConfig);
+            var res1 = miniXmlSerializer.Serialize(student);
             // another way
             var xmlStandrardSerializer = new XmlSerializer(typeof(Student));
             var res2Stream = new StringWriter();

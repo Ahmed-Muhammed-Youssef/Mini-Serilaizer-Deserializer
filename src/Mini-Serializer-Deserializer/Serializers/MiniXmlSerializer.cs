@@ -1,15 +1,29 @@
-﻿using System.Reflection;
+﻿using Mini_Serializer_Deserializer.Serializers.Configurations;
+using System.Collections;
+using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 
 namespace Mini_Serializer_Deserializer.Serializers
 {
-    public static class MiniXmlSerializer
+    public class MiniXmlSerializer
     {
-        public static int indentationStep = 3;
-        private static int CurrentIdentation = 0;
+        private int indentationStep;
+        private int CurrentIdentation = 0;
+        private readonly MiniXmlSerializerConfigurations _configurations;
+        public MiniXmlSerializer()
+        {
+            _configurations = new MiniXmlSerializerConfigurations();
+            indentationStep = _configurations.IndentationStep;
+        }
+        public MiniXmlSerializer(MiniXmlSerializerConfigurations configurations)
+        {
+            _configurations = configurations;
+            indentationStep = _configurations.IndentationStep;
+        }
+
         // obj must always be of type T at runtime
-        public static string Serialize<T>(T obj)
+        public string Serialize<T>(T obj)
         {
             // to sotre alreday serialized objects, To pervent circular referncing
             HashSet<object> serialized = [];
@@ -17,7 +31,7 @@ namespace Mini_Serializer_Deserializer.Serializers
             SerializeImp(obj, result, serialized);
             return result.ToString();
         }
-        private static void SerializeImp(object? obj, StringBuilder resultBuilder, HashSet<object> serialized, string? name = null)
+        private void SerializeImp(object? obj, StringBuilder resultBuilder, HashSet<object> serialized, string? name = null)
         {
             // ignore objects with null values
             if (obj is null)
@@ -44,7 +58,14 @@ namespace Mini_Serializer_Deserializer.Serializers
             // for primitive types
             else if (objectType.IsValueType || objectType == typeof(string))
             {
-                resultBuilder.AppendLine($"{obj}</{tagName}>");
+                if (objectType.IsEnum && _configurations.MapEnumsNumericValues)
+                {
+                    resultBuilder.AppendLine($"{Convert.ToInt32(obj)}</{tagName}>");
+                }
+                else
+                {
+                    resultBuilder.AppendLine($"{obj}</{tagName}>");
+                }
                 return;
             }
             // if the object is a collection
@@ -63,36 +84,35 @@ namespace Mini_Serializer_Deserializer.Serializers
             {
                 resultBuilder.AppendLine();
                 serialized.Add(obj);
-            }
 
-            // iterate through all the type's properties and add them to a list.
-            IList<PropertyInfo> props = new List<PropertyInfo>(objectType.GetProperties());
-            Indent();
-            foreach (var prop in props)
-            {
-                SerializeImp(Convert.ChangeType(prop.GetValue(obj, null), prop.PropertyType), resultBuilder, serialized, prop.Name);
+                // iterate through all the type's properties and add them to a list.
+                IList<PropertyInfo> props = new List<PropertyInfo>(objectType.GetProperties());
+                Indent();
+                foreach (var prop in props)
+                {
+                    SerializeImp(Convert.ChangeType(prop.GetValue(obj, null), prop.PropertyType), resultBuilder, serialized, prop.Name);
+                }
+                Unindent();
+                serialized.Remove(obj);
             }
-            Unindent();
-            serialized.Remove(obj);
 
             // close the tag
             var closeTage = $"</{tagName}>";
             resultBuilder.AppendLine($"{IndentLine(closeTage)}");
         }
 
-        private static void HandleCircularReference(StringBuilder resultBuilder)
+        private void HandleCircularReference(StringBuilder resultBuilder)
         {
             Indent();
             resultBuilder.AppendLine($"{IndentLine("<CircularReference />")}");
             Unindent();
         }
-
-        private static string IndentLine(string line) => $"{new string(' ', CurrentIdentation)}{line}";
-        private static void Indent()
+        private string IndentLine(string line) => $"{new string(' ', CurrentIdentation)}{line}";
+        private void Indent()
         {
             CurrentIdentation += indentationStep;
         }
-        private static void Unindent()
+        private void Unindent()
         {
             CurrentIdentation -= indentationStep;
         }
