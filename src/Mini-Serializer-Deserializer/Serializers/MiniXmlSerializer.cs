@@ -47,6 +47,17 @@ namespace Mini_Serializer_Deserializer.Serializers
                 resultBuilder.AppendLine($"{obj}</{tagName}>");
                 return;
             }
+            // if the object is a collection
+            else if (typeof(IEnumerable).IsAssignableFrom(objectType))
+            {
+                resultBuilder.AppendLine();
+                Indent();
+                foreach (var item in (IEnumerable)obj)
+                {
+                    SerializeImp(item, resultBuilder, serialized);
+                }
+                Unindent();
+            }
             // complex type is detected
             else
             {

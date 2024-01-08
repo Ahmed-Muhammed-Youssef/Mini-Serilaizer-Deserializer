@@ -11,6 +11,7 @@ namespace SerializerDeserializerTestApp
             TestPrimtive();
             TestCase1();
             TestCase2();
+            TestCase3();
         }
         private static void TestPrimtive()
         {
@@ -64,6 +65,37 @@ namespace SerializerDeserializerTestApp
             var xmlStandrardSerializer = new XmlSerializer(typeof(Course));
             var res2Stream = new StringWriter();
             xmlStandrardSerializer.Serialize(res2Stream, course);
+
+            Console.WriteLine($"1: serialized object:\n{res1}");
+            Console.WriteLine($"\n\n2: serialized object:\n{res2Stream}");
+        }
+
+        private static void TestCase3()
+        {
+            var assignment = new Assignment()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = null,
+                DueDate = DateTime.Now
+            };
+            var course = new Course()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = null,
+                Assignments = assignment
+            };
+
+            var student = new Student()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Ahmed",
+                Courses = new List<Course> { course }
+            };
+            var res1 = MiniXmlSerializer.Serialize(student);
+            // another way
+            var xmlStandrardSerializer = new XmlSerializer(typeof(Student));
+            var res2Stream = new StringWriter();
+            xmlStandrardSerializer.Serialize(res2Stream, student);
 
             Console.WriteLine($"1: serialized object:\n{res1}");
             Console.WriteLine($"\n\n2: serialized object:\n{res2Stream}");
