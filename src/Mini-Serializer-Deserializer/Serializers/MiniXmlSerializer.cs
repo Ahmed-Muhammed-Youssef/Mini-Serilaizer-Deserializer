@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Reflection;
 using System.Text;
-using System.Xml.Linq;
+using Mini_Serializer_Deserializer.Serializers.ValueObjects;
 
 namespace Mini_Serializer_Deserializer.Serializers
 {
@@ -27,7 +27,7 @@ namespace Mini_Serializer_Deserializer.Serializers
         {
             // to sotre alreday serialized objects, To pervent circular referncing
             HashSet<object> serialized = [];
-            StringBuilder result = new("<?xml version=\"1.0\" encoding=\"utf-16\"?>\n");
+            StringBuilder result = new("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n");
             SerializeImp(obj, result, serialized);
             return result.ToString();
         }
@@ -40,6 +40,11 @@ namespace Mini_Serializer_Deserializer.Serializers
             }
             // this will not give you the runtime type of obj if obj is an instance of a subclass of T.
             var objectType = obj.GetType();
+
+            if(FixedValues.TypeAliases.ContainsKey(objectType.Name))
+            {
+                name = FixedValues.TypeAliases[objectType.Name];
+            }
 
             string tagName = name ?? objectType.Name;
             // open the tag

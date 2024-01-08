@@ -2,7 +2,6 @@
 using Mini_Serializer_Deserializer.Serializers.Configurations;
 using SerializerDeserializerTestApp.Models;
 using System.Xml.Serialization;
-using static SerializerDeserializerTestApp.Models.Student;
 
 namespace SerializerDeserializerTestApp
 {
@@ -10,25 +9,10 @@ namespace SerializerDeserializerTestApp
     {
         static void Main(string[] args)
         {
-            TestPrimtive();
             TestCase1();
             TestCase2();
             TestCase3();
         }
-        private static void TestPrimtive()
-        {
-            int x = 1;
-            var miniXmlSerializer = new MiniXmlSerializer();
-            var res1 = miniXmlSerializer.Serialize(x);
-            // another way
-            var xmlStandrardSerializer = new XmlSerializer(typeof(int));
-            var res2Stream = new StringWriter();
-            xmlStandrardSerializer.Serialize(res2Stream, x);
-
-            Console.WriteLine($"1: serialized object:\n{res1}");
-            Console.WriteLine($"\n\n2: serialized object:\n{res2Stream}");
-        }
-
         private static void TestCase1()
         {
             var assignment = new Assignment()
