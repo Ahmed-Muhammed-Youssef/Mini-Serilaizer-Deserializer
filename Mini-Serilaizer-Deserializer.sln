@@ -5,9 +5,15 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ABC30747-2987-47BB-891E-1305E650FAA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mini-Serializer-Deserializer", "src\Mini-Serializer-Deserializer\Mini-Serializer-Deserializer.csproj", "{7BC43822-5279-4038-B019-BFD9C1577FDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mini-Serializer-Deserializer", "src\Mini-Serializer-Deserializer\Mini-Serializer-Deserializer.csproj", "{7BC43822-5279-4038-B019-BFD9C1577FDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializerDeserializerTestApp", "src\SerializerDeserializerTestApp\SerializerDeserializerTestApp.csproj", "{D9E50052-CCA4-4514-B72B-42D9294220BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerializerDeserializerTestApp", "src\SerializerDeserializerTestApp\SerializerDeserializerTestApp.csproj", "{D9E50052-CCA4-4514-B72B-42D9294220BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E03CA4D8-E875-4BC0-A10A-B88433524728}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit tests", "unit tests", "{616113DD-F079-4214-9B54-587CD6BC7917}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniSerializerDeserializer.UnitTests", "tests\MiniSerializerDeserializer.UnitTests\MiniSerializerDeserializer.UnitTests.csproj", "{DA3AA5AB-0E02-42F9-B484-C2AED878EE5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +29,10 @@ Global
 		{D9E50052-CCA4-4514-B72B-42D9294220BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9E50052-CCA4-4514-B72B-42D9294220BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9E50052-CCA4-4514-B72B-42D9294220BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA3AA5AB-0E02-42F9-B484-C2AED878EE5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA3AA5AB-0E02-42F9-B484-C2AED878EE5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA3AA5AB-0E02-42F9-B484-C2AED878EE5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA3AA5AB-0E02-42F9-B484-C2AED878EE5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +40,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7BC43822-5279-4038-B019-BFD9C1577FDD} = {ABC30747-2987-47BB-891E-1305E650FAA5}
 		{D9E50052-CCA4-4514-B72B-42D9294220BF} = {ABC30747-2987-47BB-891E-1305E650FAA5}
+		{616113DD-F079-4214-9B54-587CD6BC7917} = {E03CA4D8-E875-4BC0-A10A-B88433524728}
+		{DA3AA5AB-0E02-42F9-B484-C2AED878EE5D} = {616113DD-F079-4214-9B54-587CD6BC7917}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C36B318-9DAF-4875-958D-4EB2C2560A0E}
