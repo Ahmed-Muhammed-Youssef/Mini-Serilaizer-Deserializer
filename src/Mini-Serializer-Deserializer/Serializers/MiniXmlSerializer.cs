@@ -41,7 +41,7 @@ namespace Mini_Serializer_Deserializer.Serializers
             // this will not give you the runtime type of obj if obj is an instance of a subclass of T.
             var objectType = obj.GetType();
 
-            if(FixedValues.TypeAliases.ContainsKey(objectType.Name))
+            if(name is null && FixedValues.TypeAliases.ContainsKey(objectType.Name))
             {
                 name = FixedValues.TypeAliases[objectType.Name];
             }
