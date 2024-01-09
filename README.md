@@ -1,15 +1,56 @@
-# Custom C# Serializer/Deserializer
+# Mini Serializer/ Deserializer
 
-Welcome to the Custom C# Serializer/Deserializer project! This project is designed to help you understand the inner workings of serialization frameworks like `System.Text.Json` by building your own custom serializer/deserializer.
+A lightweight library for serializing and deserializing objects to XML and JSON formats. Currently supports XML serialization with JSON support in progress.
 
-## Project Description
+## XML Serializer 
+### Features
 
-This project aims to demystify the process of serialization and deserialization in C#. By building your own custom serializer/deserializer, you'll gain a deeper understanding of how frameworks like `System.Text.Json` operate under the hood.
+- Serialize any .NET object to XML
+- Support for primitive types, collections, complex object graphs
+- Configure DateTime format output
+- Ignore null valued properties
+- Handle circular references
 
-## Features
+### Usage
+
+```csharp
+var obj = new MyClass { ... }; 
+
+var xmlSerializer = new MiniXmlSerializer();
+var xml = xmlSerializer.Serialize(obj);
+```
+
+### Configuration
+
+The serializer can be configured through MiniXmlSerializerConfigurations class:
+
+```csharp
+var config = new MiniXmlSerializerConfigurations()
+{
+  DateTimeFormat = "yyyy-MM-dd",
+  MapEnumsNumericValues = true
+};
+var xmlSerializer = new MiniXmlSerializer(config);
+```
+
+## XML Deserializer 
 
 **Underdevelopment**
 
-## Getting Started
+## Json Serializer 
 
-To get started with this project, clone the repository and open the solution in your preferred C# IDE (like Visual Studio).
+**Underdevelopment**
+
+## Json Deserializer 
+
+**Underdevelopment**
+
+## Roadmap
+
+- Complete XML deserialization implementation
+- Complete JSON (de)serialization implementation
+- Documentation and examples
+
+The goal is to have a simple yet full-featured serialization library that can be used across different .NET projects and domains. Feedback welcome!
+
+Let me know if you have any other questions!
