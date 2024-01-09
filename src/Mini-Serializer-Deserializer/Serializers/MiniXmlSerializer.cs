@@ -67,6 +67,10 @@ namespace Mini_Serializer_Deserializer.Serializers
                 {
                     resultBuilder.AppendLine($"{Convert.ToInt32(obj)}</{tagName}>");
                 }
+                else if (objectType == typeof(DateTime))
+                {
+                    resultBuilder.AppendLine($"{((DateTime)obj).ToString(_configurations.DateTimeFormat)}</{tagName}>");
+                }
                 else
                 {
                     resultBuilder.AppendLine($"{obj}</{tagName}>");
